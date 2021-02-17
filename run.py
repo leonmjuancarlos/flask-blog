@@ -22,6 +22,19 @@ def post_form(post_id=None):
     return render_template('admin/post_form.html', post_id=post_id)
 
 
+@app.route("/signup/", methods=["POST", "GET"])
+def show_signup_form():
+    if request.method == "POST":
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password']
+
+        next = request.args.get("next", None)
+        if next:
+            return redirect(next)
+        return redirect(url_for('index'))
+    return render_template("signup_form.html")
+
 
 """
 Para hacer esto, a una URL le podemos añadir 
