@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital@0;1&display=swap");
+
+body {
+  font-family: "Open Sans", sans-serif;
+}
+
+input,
+textarea {
+  border: none;
+  outline: none;
+}
+
+.input1 {
+  display: block;
+  width: 100%;
+  color: #555;
+  line-height: 1.2;
+}
+
+.submit-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  min-width: 244px;
+  height: 50px;
+  font-size: 16px;
+  color: crimson;
+  line-height: 1.2;
+}

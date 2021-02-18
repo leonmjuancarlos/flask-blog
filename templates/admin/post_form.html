@@ -11,27 +11,27 @@
         {{ form.hidden_tag() }}
         <div>
             {{ form.title.label }}
-            {{ form.title(size=128) }}<br>
+            {{ form.title(size=128, class_='input1') }}<br>
             {% for error in form.title.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>
         <div>
             {{ form.slug.label }}
-            {{ form.slug(size=128) }}<br>
+            {{ form.slug(size=128, class_='input1') }}<br>
             {% for error in form.slug.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>
         <div>
             {{ form.content.label }}
-            {{ form.content }}<br>
+            {{ form.content(class_='input1') }}<br>
             {% for error in form.content.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>
         <div>
-            {{ form.submit }}
+            {{ form.submit(class_='submit-btn') }}
         </div>
     </form>
 {% endblock %}
