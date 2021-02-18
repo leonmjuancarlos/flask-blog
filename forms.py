@@ -1,20 +1,18 @@
-from wtforms import Form, BooleanField, StringField, PasswordField, validators
+from wtforms import Form, BooleanField, StringField, PasswordField, validators, SubmitField
+from flask_wtf import FlaskForm
 
-class RegistrationForm(Form):
+class RegistrationForm(FlaskForm):
     # DataRequired() do not allow whitespaces in strings
     # Email() validate email adress
     username = StringField('Username', [
-        validators.DataRequired(),
         validators.Length(min=4, max=25)
     ])
     email = StringField('Email', [
-        validators.DataRequired(),
         validators.Length(min=6, max=35),
-        validators.Email()
     ])
     password = PasswordField('Password', [
         validators.DataRequired(),
         validators.Length(min=4, max=25)
     ])
     
-    submit = BooleanField('Signup', [validators.DataRequired()])
+    submit = SubmitField('Signup')

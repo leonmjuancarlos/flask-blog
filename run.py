@@ -1,10 +1,11 @@
 # Flask code
-
+from forms import RegistrationForm
 from flask import Flask, render_template, request, redirect, url_for
 app = Flask(__name__)
 
 posts = [1,1,1,1 ]
 
+app.config['SECRET_KEY'] = '7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe'
 
 @app.route('/')
 def index():
@@ -34,16 +35,16 @@ def post_form(post_id=None):
 
 @app.route("/signup/", methods=["POST", "GET"])
 def show_signup_form():
-    if request.method == "POST":
-        name = request.form['Username']
-        email = request.form['Email']
-        password = request.form['Password']
-
+    form = RegistrationForm()
+    if request.method == "POST" and form.validate_on_submit():
+        username = form.username.data
+        email = form.email.data
+        password = form.password.data
         next = request.args.get("next", None)
         if next:
             return redirect(next)
         return redirect(url_for('index'))
-    return render_template("signup_form.html")
+    return render_template("signup_form.html", form=form)
 
 
 """
