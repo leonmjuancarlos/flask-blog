@@ -35,9 +35,9 @@ def post_form(post_id=None):
 @app.route("/signup/", methods=["POST", "GET"])
 def show_signup_form():
     if request.method == "POST":
-        name = request.form['name']
-        email = request.form['email']
-        password = request.form['password']
+        name = request.form['Username']
+        email = request.form['Email']
+        password = request.form['Password']
 
         next = request.args.get("next", None)
         if next:
