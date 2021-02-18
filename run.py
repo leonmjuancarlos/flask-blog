@@ -1,5 +1,4 @@
 # Flask code
-import os
 
 from flask import Flask, render_template, request, redirect, url_for
 app = Flask(__name__)
@@ -9,17 +8,28 @@ posts = [1,1,1,1 ]
 
 @app.route('/')
 def index():
-    return render_template('index.html', num_posts=len(posts))
+    data = {
+        'num_posts': len(posts)
+    }
+    return render_template('index.html', **data)
 
 
 @app.route('/p/<string:slug>/')
 def show_post(slug):
-    return render_template('post_view.html', slug_title=slug)
+    data = {
+        'slug_title': slug
+    }
+    return render_template('post_view.html', **data)
 
 @app.route("/admin/post/")
 @app.route("/admin/post/<int:post_id>/")
 def post_form(post_id=None):
-    return render_template('admin/post_form.html', post_id=post_id)
+    data = {
+        'post_id': post_id
+    }
+    if post_id == None:
+        data['post_id'] = 'más reciente'
+    return render_template('admin/post_form.html', **data)
 
 
 @app.route("/signup/", methods=["POST", "GET"])
