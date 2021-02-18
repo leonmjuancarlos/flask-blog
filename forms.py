@@ -1,4 +1,4 @@
-from wtforms import Form, BooleanField, StringField, PasswordField, validators, SubmitField
+from wtforms import Form, BooleanField, StringField, PasswordField, validators, SubmitField, TextAreaField
 from flask_wtf import FlaskForm
 
 class RegistrationForm(FlaskForm):
@@ -16,3 +16,15 @@ class RegistrationForm(FlaskForm):
     ])
     
     submit = SubmitField('Signup')
+
+
+class PostForm(FlaskForm):
+
+    title = StringField('Title', [
+        validators.Length(max=128)
+    ])
+    slug = StringField('Slug', [
+        validators.Length(max=128)
+    ])
+    content = TextAreaField('Content')
+    submit = SubmitField('Upload')
