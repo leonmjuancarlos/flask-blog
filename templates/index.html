@@ -1,5 +1,8 @@
 {% extends "base_template.html" %}
 {% block title %}Tutorial Flask: Miniblog{% endblock %}
 {% block content %}
-    {{ num_posts }} posts
+<p>Esto esta fuera del for loop</p>
+{% for slug_key in posts %}
+<p><a href="/p/{{slug_key}}" >{{posts[slug_key]['title']}}</a></p>
+{% endfor %}
 {% endblock %}

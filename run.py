@@ -2,30 +2,34 @@
 import sys
 from forms import PostForm, RegistrationForm
 from flask import Flask, render_template, request, redirect, url_for
+import json
+
 app = Flask(__name__)
 
-POSTS = [
-    {
-        'title': "Titulo H1",
+def to_json(posts):
+    with open('posts.json', 'w') as f:
+        json.dump(posts, f, indent=4)
+
+
+POSTS = {
+    'test1': {
+        'title': "Titulo H1 del post 1",
         'slug': 'test1',
         'content': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
     },
-    {
-        'title': "Titulo H1",
+    'test2': {
+        'title': "Titulo H1 del post 2",
         'slug': 'test2',
         'content': 'jsadfljljlsadjldfjdsaj sadfjsadjjfls jasdlfjlasjdjf jsadlkfjlskdajlk ljsadlkjfñlas'
     }
-]
+}
 
 app.config['SECRET_KEY'] = '7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe'
 
 
 @app.route('/')
 def index():
-    data = {
-        'num_posts': len(POSTS)
-    }
-    return render_template('index.html', **data)
+    return render_template('index.html', posts = POSTS)
 
 
 @app.route('/p/<string:slug>/')
@@ -35,10 +39,8 @@ def show_post(slug):
     }
 
     # Verify that url slug correspond to a existing post
-    for dicc in POSTS:
-        for k, v in dicc.items():
-            if v == slug:
-                return render_template('post_view.html', **dicc)
+    if slug in POSTS:
+        return render_template('post_view.html', **POSTS[slug])
 
     return redirect(url_for("index"))
 
@@ -46,11 +48,7 @@ def show_post(slug):
 @app.route("/admin/post/", methods=["POST", "GET"])
 # @app.route("/admin/post/<int:post_id>/")
 def post_form(post_id=None):
-    data = {
-        'post_id': post_id
-    }
-    """ if post_id == None:
-        data['post_id'] = 'más reciente' """
+    data = {}
     form = PostForm()
     if request.method == "POST" and form.validate_on_submit():
         title = form.title.data
@@ -60,6 +58,12 @@ def post_form(post_id=None):
         data['slug'] = slug
         data['content'] = content
 
+        POSTS[slug] = {
+            'title': title,
+            'slug': slug,
+            'content': content
+        }
+        to_json(POSTS)
         return redirect(url_for('index'))
 
     return render_template('admin/post_form.html', form=form, **data)
